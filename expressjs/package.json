@@ -1,0 +1,22 @@
+{
+  "name": "expressjs",
+  "version": "1.0.0",
+  "description": "node js express js advance tutorial",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "cd.."
+  },
+  "keywords": [
+    "MIT"
+  ],
+  "author": "Jitendra Sah",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-static": "^0.7.11"
+  }
+}
