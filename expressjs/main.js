@@ -1,8 +1,9 @@
 const express =require("express");
 const app =express();
 app.use('/abc', express.static('public'));
-app.get("/ab?cd",(req, res)=>{
-    res.sendFile(__dirname + '/public/index.html');
+app.get('/ab(*)cd/',(req, res)=>{
+    console.log(req.params);
+    res.send('Hello World: ');
 });
  
 app.get("/users/:Id?",(req, res)=>{
