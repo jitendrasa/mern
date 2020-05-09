@@ -6,16 +6,24 @@
     <h1>{{ title }}<h1>
     <p>{{ message }}</p>
     <form method="post" action="/"> 
+
         <input type="text" name="username" value="{{ user.username }}"><br>
+
         {% if (error.username) %}
-        <p>{{ error.username.msg }}</p>
+        <p>{{ error.username.msg}}</p>
         {% endif %}
+
         <input type="password" name="password" value="{{ user.password }}"><br>
+
         {% if (error.password) %}
-        <p>{{ error.password.msg }}</p>
+        <p>{{ error.password.msg}}</p>
         {% endif %}
         
         <input type="password" name="cpassword"><br>
+
+        {% if (error.cpassword) %}
+        <p>{{ error.cpassword.msg}}</p>
+        {% endif %}
     
         <input type="submit" name="submit" value="Submit">
     </form>

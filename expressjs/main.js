@@ -32,8 +32,8 @@ app.get('/', (req, res) => {
 app.post('/', urlencodedParser, [
     check('username', 'Username should be email id').trim().isEmail(),
     check('password', 'Password must be in 5 characters').trim().isLength({ min: 5 }),
-    check('cpassword').custom((value, { res }) => {
-if (value != res.body.password) {
+    check('cpassword').custom((value,{req}) => {
+if (value != req.body.password) {
     throw new Error('Confirm password does not match password');
 }
 return true;
