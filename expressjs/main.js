@@ -1,9 +1,19 @@
-const express =require("express");
+const express = require("express");
 const bodyParser = require('body-parser');
-const app =express();
+const { check, validationResult } = require('express-validator');
+const { matchedData, body } = require('express-validator');
+
+const app = express();
 app.use('/abc', express.static('public'));
 app.set('view engine', 'twig');
-app.set('views','./public/views');
+app.set('views', './public/views');
+
+
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -12,23 +22,38 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
-app.get('/',(req,res)=>{
-
-    res.render('index',{title:"Login Form",message:'Enter Username and Password'});
+app.get('/', (req, res) => {
+    res.render('index', { title: "Login Form", message: 'Enter Username and Password' });
 });
 
-app.post('/',(req,res)=>{
+// app.post('/login',urlencodedParser, function (req, res) {
+//     res.send('welcome, ' + req.body.username)
+//     })
+app.post('/', urlencodedParser, [
+    check('username', 'Username should be email id').trim().isEmail(),
+    check('password', 'Password must be in 5 characters').trim().isLength({ min: 5 }),
+    check('cpassword').custom((value, { res }) => {
+if (value != res.body.password) {
+    throw new Error('Confirm password does not match password');
+}
+return true;
+    })
 
-    res.render('login',{title:"User Details",username:req.body.username, password:req.body.password});
+], (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors.mapped());
+    if (!errors.isEmpty()) {
+        const user = matchedData(req);
+        res.render('index', { title: "User Details", error: errors.mapped(), user: user });
+    } else {
+        const user = matchedData(req);
+        console.log(user);
+        res.render('login', { title: "User Details", user: user });
+    }
+
 });
 
-app.get('/about/:a-:b',(req,res)=>{
 
-    res.render('about',{title:"About",
-        sum:parseInt(req.params.a) + parseInt(req.params.b), 
-        sub:parseInt(req.params.a) - parseInt(req.params.b), 
-        mul:parseInt(req.params.a) * parseInt(req.params.b), 
-        div:parseInt(req.params.a) / parseInt(req.params.b)});
-});
 
-app.listen(3000,()=>console.log("Server running on port:3000"));
+
+app.listen(3000, () => console.log("Server running on port:3000"));
