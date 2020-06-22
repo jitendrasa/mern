@@ -7,6 +7,7 @@ var employeeSchema = new mongoose.Schema({
     etype: String,
     hourlyrate: Number,
     totalHour: Number,
+    total: Number,
   });
   employeeSchema.methods.totalSalary=function(){
     console.log("Total Income of %s: Rs. %d",this.name, this.hourlyrate* this.totalHour);
@@ -19,6 +20,31 @@ email:'info@jitendrasah.com',
 etype:'hourly',
 hourlyrate:10,
 totalHour:16,
+total:160,
+});
+
+var employees = new employeeModel({name:'Krishna',
+email:'info@krishnasah.com',
+etype:'hourly',
+hourlyrate:10,
+totalHour:16,
+total:160,
+});
+
+var employees = new employeeModel({name:'Amit',
+email:'info@amitsah.com',
+etype:'hourly',
+hourlyrate:10,
+totalHour:16,
+total:160,
+});
+
+var employees = new employeeModel({name:'Dharmendra',
+email:'info@dharmendrasah.com',
+etype:'hourly',
+hourlyrate:10,
+totalHour:56,
+total:560,
 });
 
 employees.total = employees.totalSalary();
@@ -33,9 +59,52 @@ conn.on("disconnected",function(){
 
 conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', function() {
-  employees.save(function(err,res){
-if(err) throw error;
-console.log(res);
-conn.close();
-  })
-})
+//   employees.save(function(err,res){
+// if(err) throw error;
+// console.log(res);
+// conn.close();
+//   });
+
+  /*employeeModel.find({}, function(err, data){
+
+    if(err) throw error;
+    console.log(data);
+    conn.close();
+  });
+  */
+
+  /*employeeModel.findOne({}, function(err, data){
+
+    if(err) throw error;
+    console.log(data);
+    conn.close();
+  });
+  */
+
+ /*
+ employeeModel.findById({_id:"5eddaca057e838078ad5a36f"}, function(err, data){
+
+  if(err) throw error;
+  console.log(data);
+  conn.close();
+});
+*/
+
+/* 
+employeeModel.find({name:"Dharmendra"}, function(err, data){
+
+  if(err) throw error;
+  console.log(data);
+  conn.close();
+});
+*/
+
+employeeModel.find({}, function(err, data){
+
+  if(err) throw error;
+  console.log(data);
+  conn.close();
+});
+
+
+});
